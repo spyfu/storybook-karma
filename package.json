@@ -1,6 +1,6 @@
 {
   "name": "storybook-karma",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "Displays Karma results using karma-json-reporter",
   "main": "index.js",
   "repository": "https://github.com/spyfu/storybook-karma",

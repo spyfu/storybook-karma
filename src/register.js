@@ -44,11 +44,10 @@ export class Karma extends React.Component {
 
     render() {
         const { test } = this.state;
-        const textAfterFormatted = test ? test.trim().replace(/n/g, '<br />') : '';
 
-        return <div style={ styles.testsPanel }>
-            <div dangerouslySetInnerHTML={{ __html: textAfterFormatted }} />
-        </div>
+        return React.createElement('div', { style: styles.testsPanel }, 
+            React.createElement('div', {}, test)
+        )
     }
 }
 
@@ -61,6 +60,6 @@ Karma.defaultProps = {
 addons.register('storybook/karma', api => {
     addons.addPanel('storbook/karma/panel', {
         title: 'Karma',
-        render: () => <Karma channel={ addons.getChannel() } api={api} />,
+        render: () => React.createElement(Karma, {channel: addons.getChannel(), api}),
     });
 });
