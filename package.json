@@ -1,0 +1,18 @@
+{
+  "name": "storybook-karma",
+  "version": "0.1",
+  "description": "Displays Karma results using karma-json-reporter",
+  "main": "index.js",
+  "repository": "https://github.com/spyfu/storybook-karma",
+  "author": "Timothy Stapleton <retrocede@outlook.com>",
+  "license": "MIT",
+  "private": true,
+  "peerDependencies": {
+    "@storybook/addons": "^3.4.0",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "dependencies": {
+    "@storybook/components": "^3.4.0"
+  }
+}
