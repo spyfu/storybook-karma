@@ -1,5 +1,6 @@
 import React from 'react';
 import addons from '@storybook/addons';
+import { EHOSTUNREACH } from 'constants';
 
 const styles = {
     testsPanel: {
@@ -15,7 +16,10 @@ const styles = {
 export class Karma extends React.Component {
     constructor(...args) {
         super(...args);
-        this.state = { test: '' };
+        this.state = {
+            tests: '',
+            karmaResults: {},
+        };
         this.onAddTests = this.onAddTests.bind(this);
     }
 
@@ -38,15 +42,44 @@ export class Karma extends React.Component {
         channel.removeListener('storybook/karma/add_tests', this.onAddTests);
     }
 
-    onAddTests(test) {
-        this.setState({ test });
+    onAddTests(options) {
+        this.setState({ 
+            tests: (options.tests) ? options.tests : '',
+            karmaResults: (options.karmaResults) ? options.karmaResults : {},
+        });
     }
 
     render() {
-        const { test } = this.state;
+        const { tests, karmaResults } = this.state;
+        let results = [];
+
+        console.log('rendering, for science!');
+
+        // filter out results
+        if (karmaResults.browsers) {
+            const browserKeys = Object.keys(karmaResults.browsers);
+            const browser = (browserKeys) ? browserKeys[0] : '';
+            if (browser) {
+                results = karmaResults.result[browser]
+                    .filter((result) => result.suite.includes(tests));
+            }
+        }
+
 
         return React.createElement('div', { style: styles.testsPanel }, 
-            React.createElement('div', {}, test)
+            React.createElement('div', {}, [
+                React.createElement('h1', { key: 'header'}, tests),
+                (
+                    (results && results.length > 0)
+                        ? React.createElement('ul', { key: 'results' },
+                            results.map(function(result) {
+                                let color = (result.success) ? 'green' : 'red';
+                                return React.createElement('li', { key: result.description, style: { color } }, result.description)
+                            })
+                        )
+                        : React.createElement('p', { key: 'no-results' }, 'no tests found')
+                ),
+            ])
         )
     }
 }
