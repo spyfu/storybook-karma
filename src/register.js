@@ -53,8 +53,6 @@ export class Karma extends React.Component {
         const { tests, karmaResults } = this.state;
         let results = [];
 
-        console.log('rendering, for science!');
-
         // filter out results
         if (karmaResults.browsers) {
             const browserKeys = Object.keys(karmaResults.browsers);
